@@ -1,7 +1,7 @@
 
 //####### here we testing the default example from open-meteo API ######
-const getWeatherData = async ()=>{
-    const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m');
+const getWeatherData = async (latitude,longitude)=>{
+    const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude='+latitude.toPrecision(4).toString()+'&longitude='+longitude.toPrecision(4).toString()+'&current=temperature_2m,wind_speed_10m&temperature_unit=celsius');
     const myJson= await response.json();
     return myJson;
 }
@@ -16,8 +16,18 @@ const getLocationWeather = async ()=>{
 
 
 async function main(){
-    console.log(await getWeatherData());
-    console.log(await getLocationWeather());
+
+    locationJson=await getLocationWeather();
+    weatherJson=await getWeatherData(locationJson.latitude, locationJson.longitude); // sending the current location to get the weather
+
+    //### to check in console the structure of the data
+    console.log(locationJson);
+    console.log(weatherJson);
+
+    //### showing the results in index.html
+    document.getElementById('country').innerHTML = locationJson.country_name;
+    document.getElementById('region').innerHTML = locationJson.region_name;
+    document.getElementById('temperature').innerHTML = weatherJson.current.temperature_2m + " °C";
 }
 
 main();

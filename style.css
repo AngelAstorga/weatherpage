@@ -26,7 +26,7 @@ body{
 .Link{
     position: relative;
     right: 0px;
-    bottom: 0px;
+    bottom: 7px;
     text-decoration: none;
     padding: 5px;
     border-radius: 5px;
